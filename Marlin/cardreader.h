@@ -5,6 +5,12 @@
 
 #include "SdFile.h"
 enum LsAction {LS_SerialPrint,LS_Count,LS_GetFilename};
+
+#define FILENAME_ENTRYLEN 11
+#define TERMINATED_FILENAME_LEN ((FILENAME_ENTRYLEN)+2)
+#define PATH_STORAGE (TERMINATED_FILENAME_LEN*2)
+#define UNUSED 0x32
+
 class CardReader
 {
 public:
@@ -45,7 +51,7 @@ public:
   bool saving;
   bool sdprinting ;  
   bool cardOK ;
-  char filename[12];
+  char filename[TERMINATED_FILENAME_LEN];
   bool filenameIsDir;
   int lastnr; //last number of the autostart;
 private:

@@ -245,7 +245,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 //#define ULTRA_LCD  //general lcd support, also 16x2
 //#define SDSUPPORT // Enable SD Card Support in Hardware Console
 
-//#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
+#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
 //#define ULTIPANEL  //the ultipanel as on thingiverse
 
 
@@ -259,8 +259,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 //  #define NEWPANEL  //enable this if you have a click-encoder panel
   #define SDSUPPORT
   #define ULTRA_LCD
-  #define LCD_WIDTH 20
-  #define LCD_HEIGHT 4
+  #define LCD_WIDTH 20 				//number LCD columns
+  #define LCD_STORAGE ((LCD_WIDTH)+1) 		//storage
+  #define LCD_HEIGHT 4 				//number LCD rows
   
 // Preheat Constants
   #define PLA_PREHEAT_HOTEND_TEMP 180 
@@ -273,8 +274,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #else //no panel but just lcd 
   #ifdef ULTRA_LCD
-    #define LCD_WIDTH 16
-    #define LCD_HEIGHT 2    
+    #define LCD_WIDTH 16			//number LCD columns
+    #define LCD_STORAGE ((LCD_WIDTH)+1) 	//storage
+    #define LCD_HEIGHT 2    		    	//number LCD rows
   #endif
 #endif
 

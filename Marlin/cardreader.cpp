@@ -8,7 +8,6 @@
 #ifdef SDSUPPORT
 
 
-
 CardReader::CardReader()
 {
    filesize = 0;
@@ -29,12 +28,15 @@ CardReader::CardReader()
   autostart_atmillis=millis()+5000;
 }
 
+//expand a filename entry into a filename string. inplace
 char *createFilename(char *buffer,const dir_t &p) //buffer>12characters
 {
   char *pos=buffer;
-  for (uint8_t i = 0; i < 11; i++) 
+  for (uint8_t i = 0; i < FILENAME_ENTRYLEN; i++) 
   {
-    if (p.name[i] == ' ')continue;
+    //skip over unused portions of the filename 
+    if (p.name[i] == UNUSED) continue;
+
     if (i == 8) 
     {
       *pos++='.';
@@ -56,8 +58,8 @@ void  CardReader::lsDive(const char *prepend,SdFile parent)
     if( DIR_IS_SUBDIR(&p) && lsAction!=LS_Count && lsAction!=LS_GetFilename) // hence LS_SerialPrint
     {
 
-      char path[13*2];
-      char lfilename[13];
+      char path[PATH_STORAGE];
+      char lfilename[TERMINATED_FILENAME_LEN];
       createFilename(lfilename,p);
       
       path[0]=0;

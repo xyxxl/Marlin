@@ -1,6 +1,7 @@
 #include "language.h"
 #include "temperature.h"
 #include "ultralcd.h"
+#include "cardreader.h"
 #ifdef ULTRA_LCD
 #include "Marlin.h"
 #include "language.h"
@@ -13,8 +14,9 @@
 
 extern volatile int feedmultiply;
 extern volatile bool feedmultiplychanged;
-
+extern unsigned long starttime;
 extern volatile int extrudemultiply;
+
 
 extern long position[4];   
 #ifdef SDSUPPORT
@@ -33,7 +35,7 @@ short lastenc=0;
 //===========================================================================
 //=============================private  variables============================
 //===========================================================================
-static char messagetext[LCD_WIDTH]="";
+static char messagetext[LCD_STORAGE]="";
 
 //return for string conversion routines
 static char conv[8];
@@ -74,7 +76,7 @@ int intround(const float &x){return int(0.5+x);}
 void lcd_status(const char* message)
 {
   strncpy(messagetext,message,LCD_WIDTH);
-  messagetext[strlen(message)]=0;
+  messagetext[strnlen(message,LCD_WIDTH)]=0;
 }
 
 void lcd_statuspgm(const char* message)
@@ -297,7 +299,7 @@ void buttons_check()
         encoderpos--;
       break;
     default:
-      ;
+      break;
     }
   }
   lastenc=enc;
@@ -434,7 +436,8 @@ void MainMenu::showStatus()
   {
     lcd.setCursor(0,LCD_HEIGHT-1);
     lcd.print(messagetext);
-    uint8_t n=strlen(messagetext);
+    //bounds check with strnlen
+    uint8_t n=strnlen(messagetext,LCD_WIDTH);
     for(int8_t i=0;i<LCD_WIDTH-n;i++)
       lcd.print(" ");
     messagetext[0]='\0';
@@ -479,7 +482,8 @@ void MainMenu::showStatus()
   {
     lcd.setCursor(0,LCD_HEIGHT-1);
     lcd.print(messagetext);
-    uint8_t n=strlen(messagetext);
+    //bounds check with strnlen
+    uint8_t n=strnlen(messagetext,LCD_WIDTH);
     for(int8_t i=0;i<LCD_WIDTH-n;i++)
       lcd.print(" ");
     messagetext[0]='\0';
@@ -2305,7 +2309,7 @@ void MainMenu::showSD()
           card.getfilename(i-FIRSTITEM);
           if(card.filenameIsDir)
           {
-            for(int8_t i=0;i<strlen(card.filename);i++)
+            for(int8_t i=0;i<strnlen(card.filename,TERMINATED_FILENAME_LEN-1);i++)
               card.filename[i]=tolower(card.filename[i]);
             card.chdir(card.filename);
             lineoffset=0;
@@ -2314,7 +2318,7 @@ void MainMenu::showSD()
           else
           {
             char cmd[30];
-            for(int8_t i=0;i<strlen(card.filename);i++)
+            for(int8_t i=0;i<strnlen(card.filename,TERMINATED_FILENAME_LEN-1);i++)
               card.filename[i]=tolower(card.filename[i]);
             sprintf(cmd,"M23 %s",card.filename);
             //sprintf(cmd,"M115");
