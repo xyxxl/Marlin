@@ -63,7 +63,8 @@ void  CardReader::lsDive(const char *prepend,SdFile parent)
       createFilename(lfilename,p);
       
       path[0]=0;
-      if(strlen(prepend)==0) //avoid leading / if already in prepend
+     // if(strlen(prepend)==0) //avoid leading / if already in prepend
+      if (prepend[0] == 0x00)
       {
        strcat(path,"/");
       }
@@ -428,10 +429,10 @@ void CardReader::checkautostart(bool force)
     if(!cardOK) //fail
       return;
   }
-  
-  char autoname[30];
-  sprintf(autoname,"auto%i.g",lastnr);
-  for(int8_t i=0;i<(int)strlen(autoname);i++)
+#define LEN_AUTONAME 30
+  char autoname[LEN_AUTONAME];
+  snprintf(autoname,LEN_AUTONAME,"auto%i.g",lastnr);
+  for(int8_t i=0;i<(int)strnlen(autoname,LEN_AUTONAME-1);i++)
     autoname[i]=tolower(autoname[i]);
   dir_t p;
 
@@ -440,17 +441,20 @@ void CardReader::checkautostart(bool force)
   bool found=false;
   while (root.readDir(p) > 0) 
   {
-    for(int8_t i=0;i<(int)strlen((char*)p.name);i++)
-    p.name[i]=tolower(p.name[i]);
+    //for(int8_t i=0;i<(int)strlen((char*)p.name);i++)
+	  //p.name is not a string.
+    for (int8_t i=0; i<11;i++)
+	  p.name[i]=tolower(p.name[i]);
     //Serial.print((char*)p.name);
     //Serial.print(" ");
     //Serial.println(autoname);
     if(p.name[9]!='~') //skip safety copies
     if(strncmp((char*)p.name,autoname,5)==0)
     {
-      char cmd[30];
+#define LEN_COMMAND 30
+      char cmd[LEN_COMMAND];
 
-      sprintf(cmd,"M23 %s",autoname);
+      snprintf(cmd,LEN_COMMAND,"M23 %s",autoname);
       enquecommand(cmd);
       enquecommand("M24");
       found=true;

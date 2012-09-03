@@ -2317,10 +2317,11 @@ void MainMenu::showSD()
           }
           else
           {
-            char cmd[30];
+#define LEN_COMMAND 30
+            char cmd[LEN_COMMAND];
             for(int8_t i=0;i<strnlen(card.filename,TERMINATED_FILENAME_LEN-1);i++)
               card.filename[i]=tolower(card.filename[i]);
-            sprintf(cmd,"M23 %s",card.filename);
+            snprintf(cmd,LEN_COMMAND,"M23 %s",card.filename);
             //sprintf(cmd,"M115");
             enquecommand(cmd);
             enquecommand("M24");

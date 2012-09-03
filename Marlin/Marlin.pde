@@ -492,12 +492,13 @@ void get_command()
       if(card.eof()){
         SERIAL_PROTOCOLLNPGM(MSG_FILE_PRINTED);
         stoptime=millis();
-        char time[30];
+#define LEN_TIME 30
+        char time[LEN_TIME];
         unsigned long t=(stoptime-starttime)/1000;
         int sec,min;
         min=t/60;
         sec=t%60;
-        sprintf(time,"%i min, %i sec",min,sec);
+        snprintf(time,LEN_TIME,"%i min, %i sec",min,sec);
         SERIAL_ECHO_START;
         SERIAL_ECHOLN(time);
         LCD_MESSAGE(time);
@@ -911,12 +912,13 @@ void process_commands()
     case 31: //M31 take time since the start of the SD print or an M109 command
       {
       stoptime=millis();
-      char time[30];
+#define LEN_TIME 30
+      char time[LEN_TIME];
       unsigned long t=(stoptime-starttime)/1000;
       int sec,min;
       min=t/60;
       sec=t%60;
-      sprintf(time,"%i min, %i sec",min,sec);
+      snprintf(time,LEN_TIME,"%i min, %i sec",min,sec);
       SERIAL_ECHO_START;
       SERIAL_ECHOLN(time);
       LCD_MESSAGE(time);
