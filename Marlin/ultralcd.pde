@@ -149,12 +149,16 @@ void beep()
 	#if (BEEPER > -1)
 	{
 		pinMode(BEEPER,OUTPUT);
-		for(int8_t i=0;i<20;i++){
 		WRITE(BEEPER,HIGH);
-		delay(5);
+		delay(100);
 		WRITE(BEEPER,LOW);
-		delay(5);
-		}
+		
+		//for(int8_t i=0;i<20;i++){
+		//WRITE(BEEPER,HIGH);
+		//delay(5);
+		//WRITE(BEEPER,LOW);
+		//delay(5);
+		//}
 	}
         #endif
   #endif
@@ -166,13 +170,11 @@ void beepshort()
   #ifdef ULTIPANEL
 	#if (BEEPER > -1)
 	{
+		// the piezzo buzzers only need a voltage to resonate
 		pinMode(BEEPER,OUTPUT);
-		for(int8_t i=0;i<10;i++){
 		WRITE(BEEPER,HIGH);
-		delay(3);
+		delay(15);
 		WRITE(BEEPER,LOW);
-		delay(3);
-		}
 	}
         #endif
   #endif  

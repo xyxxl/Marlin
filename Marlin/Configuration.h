@@ -12,8 +12,8 @@
 #define STRING_CONFIG_H_AUTHOR "erik" //Who made the changes.
 
 // This determines the communication speed of the printer
-#define BAUDRATE 250000
-//#define BAUDRATE 115200
+//#define BAUDRATE 250000
+#define BAUDRATE 115200
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // Gen7 custom (Alfons3 Version) = 10 "https://github.com/Alfons3/Generation_7_Electronics"
@@ -32,7 +32,7 @@
 // Gen3+ =9
 
 #ifndef MOTHERBOARD
-#define MOTHERBOARD 7
+#define MOTHERBOARD 33
 #endif
 
 
@@ -105,14 +105,14 @@
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-    #define  DEFAULT_Kp 22.2
-    #define  DEFAULT_Ki 1.08  
-    #define  DEFAULT_Kd 114  
+ //   #define  DEFAULT_Kp 22.2
+  //  #define  DEFAULT_Ki 1.08  
+   // #define  DEFAULT_Kd 114  
 
 // Makergear
-//    #define  DEFAULT_Kp 7.0
-//    #define  DEFAULT_Ki 0.1  
-//    #define  DEFAULT_Kd 12  
+    #define  DEFAULT_Kp 7.0
+    #define  DEFAULT_Ki 0.1  
+    #define  DEFAULT_Kd 12  
 
 // Mendel Parts V9 on 12V    
 //    #define  DEFAULT_Kp 63.0
@@ -246,7 +246,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 //#define SDSUPPORT // Enable SD Card Support in Hardware Console
 
 #define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
-//#define ULTIPANEL  //the ultipanel as on thingiverse
+
+//the ultipanel as on thingiverse
+//#define ULTIPANEL  
 
 
 #ifdef ULTIMAKERCONTROLLER    //automatic expansion
@@ -259,9 +261,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 //  #define NEWPANEL  //enable this if you have a click-encoder panel
   #define SDSUPPORT
   #define ULTRA_LCD
-  #define LCD_WIDTH 20 				//number LCD columns
-  #define LCD_STORAGE ((LCD_WIDTH)+1) 		//storage
-  #define LCD_HEIGHT 4 				//number LCD rows
+  #define LCD_WIDTH 20
+  #define LCD_STORAGE ((LCD_WIDTH)+1)
+  #define LCD_HEIGHT 4
   
 // Preheat Constants
   #define PLA_PREHEAT_HOTEND_TEMP 180 
@@ -274,9 +276,8 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #else //no panel but just lcd 
   #ifdef ULTRA_LCD
-    #define LCD_WIDTH 16			//number LCD columns
-    #define LCD_STORAGE ((LCD_WIDTH)+1) 	//storage
-    #define LCD_HEIGHT 2    		    	//number LCD rows
+    #define LCD_WIDTH 16
+    #define LCD_HEIGHT 2    
   #endif
 #endif
 
@@ -286,6 +287,9 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // M240  Triggers a camera by emulating a Canon RC-1 Remote
 // Data from: http://www.doc-diy.net/photo/rc-1_hacked/
 // #define PHOTOGRAPH_PIN     23
+
+// SF send wrong arc g-codes when using Arc Point as fillet procedure
+//#define SF_ARC_FIX
 
 #include "Configuration_adv.h"
 #include "thermistortables.h"
